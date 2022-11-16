@@ -2,14 +2,69 @@ Name: Thomas Schindler
 
 
 ```{r}
-library(tidyr)
+library(tidyverse)
 ```
 
 For this assignment I will be using the Quality of Government and Polity V Data sets
 
 
 ```{r}
-df1 <- ("PolityV.csv")
-df2 <- ("qog_std_cs_jan22.csv")
+df1 <- read.csv("PolityV.csv")
+df2 <- read.csv("qog_std_ts_jan22.csv")
 ```
+
+```{r}
+df1
+```
+
+```{r}
+df2
+```
+Both datasets has thousands of observations so lets limit it to just 1950
+
+```{r}
+df1<-
+  df1%>%
+  filter(year > "1950")
+
+df2<-
+  df2%>%
+  filter(year > "1950")
+```
+
+I would like to use features from QoG to predict polity scores using OLS regression.
+
+The only variables I need from Polity V are the variables scode, country name, year, and polity
+
+```{r}
+df1<-
+  df1%>%
+  select(scode, year, country, polity)
+```
+
+I want to remove cases where the polity scores is not applicable indicated by the values -88, -77, and -66
+
+```{r}
+df1<-
+  df1%>%
+  filter(polity != "-77")%>%
+  filter(polity != "-88")%>%
+  filter(polity != "-66")
+```
+
+
+I now need to select variables of interest for our model. From looking at the QoG codebook I will use GDP per Capita, average years of education, access to media, share of women in political office, and whether or not their is an official religion.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
