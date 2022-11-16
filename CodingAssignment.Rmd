@@ -1,0 +1,15 @@
+Name: Thomas Schindler
+
+
+```{r}
+library(tidyr)
+```
+
+For this assignment I will be using the Quality of Government and Polity V Data sets
+
+
+```{r}
+df1 <- ("PolityV.csv")
+df2 <- ("qog_std_cs_jan22.csv")
+```
+
