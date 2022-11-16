@@ -2,6 +2,7 @@ Name: Thomas Schindler
 
 
 ```{r}
+rm(list=ls())
 library(tidyverse)
 ```
 
@@ -53,16 +54,43 @@ df1<-
 ```
 
 
-I now need to select variables of interest for our model. From looking at the QoG codebook I will use GDP per Capita, average years of education, access to media, share of women in political office, and whether or not their is an official religion.
+I now need to select variables of interest for our model. From looking at the QoG codebook I will use GDP per Capita, percent of available students in primary school, share of women in political office, and human development.
 
 
+```{r}
+df2<-
+  df2%>%
+  select(ccodealp, year, gle_cgdpc, wdi_nerp, undp_hdi, ipu_l_sw)%>%
+  drop_na()
+```
+
+We can rename variables to make more logical sense and prepare for merging data
+
+```{r}
+df2<-
+  df2%>%
+  rename(scode = ccodealp)%>%
+  rename(gdp = gle_cgdpc)%>%
+  rename(education = wdi_nerp)%>%
+  rename(humanDev = undp_hdi)%>%
+  rename(womenParticpation = ipu_l_sw)
+```
 
 
+Now we can join the datasets and perform linear regression
 
+```{r}
+df <- merge(df1,df2,by=c("scode","year"))
+df
+```
 
+```{r}
+model <- lm(polity ~ gdp + education + humanDev + womenParticpation, data = df)
+```
 
-
-
+```{r}
+summary(model)
+```
 
 
 
